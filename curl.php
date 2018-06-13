@@ -41,11 +41,12 @@ class Curl {
       $res = curl_exec($curl);
       $info = curl_getinfo($curl);
       curl_close($curl);
+
       if(is_object($callback)) {
         return $callback($res, $info);
       }
 
-      return $callback($res, $info);
+      return (object) array('response'=>$res, 'info'=>$info);
 
     }
   }
@@ -71,7 +72,7 @@ class Curl {
         return $callback($res, $info);
       }
 
-      return $callback($res, $info);
+      return (object) array('response'=>$res, 'info'=>$info);
 
     }
   }
