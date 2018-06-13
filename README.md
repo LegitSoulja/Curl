@@ -11,7 +11,8 @@ $curl = Curl::post(
     'url' => 'http://example.com',
     'query' => array(
       'data' => 'some type of data sent through post'
-    )
+    ),
+    'type' => 'json' // parse and return data as json
   ),
   
   // Setup additional curl options
@@ -46,7 +47,8 @@ Curl::get(
     'url' => 'http://example.com',
     'query' => array(
       'data' => 'some type of data sent through get'
-    )
+    ),
+    'type' => 'json'
   ),
   
   // Setup additional curl options
