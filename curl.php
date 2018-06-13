@@ -2,6 +2,21 @@
 
 class Curl {
 
+  private static function parse($data, $type) {
+    switch(strtolower($type)) {
+      case 'json':
+        try{
+          $parse = json_decode($data, true);
+          if($parse === null) {
+            throw new Exception("Failed to parse data as json");
+          }
+          return $parse;
+        }catch(Exception $ex) {
+          return $data;
+        }
+      default: return $data;
+    }
+  }
 
   public static function post($data, $options, $callback){
 
@@ -21,7 +36,7 @@ class Curl {
       }
     }
 
-    $obj = (object) array('response'=>curl_exec($curl), 'info' => curl_getinfo($curl));
+    $obj = (object) array('response'=>self::parse(curl_exec($curl), ((array_key_exists('type', $data) ? $data['type'] : null)) ), 'info' => curl_getinfo($curl));
     curl_close($curl);
 
     if(is_object($callback)) {
@@ -50,7 +65,7 @@ class Curl {
       }
     }
 
-    $obj = (object) array('response'=>curl_exec($curl), 'info' => curl_getinfo($curl));
+    $obj = (object) array('response'=>self::parse(curl_exec($curl), ((array_key_exists('type', $data) ? $data['type'] : null)) ), 'info' => curl_getinfo($curl));
     curl_close($curl);
 
     if(is_object($callback)) {
@@ -68,6 +83,7 @@ class Curl {
           array(
             'url'=>'http://httpbin.org/post', 
             'query'=>array('type'=>'post', 'data'=>array('post')),
+            'type' => 'json'
           ), null, 
           function($response, $info){
             print_r(func_get_args());
@@ -79,6 +95,7 @@ class Curl {
           array(
             'url'=>'http://httpbin.org/get', 
             'query'=>array('type'=>'get', 'data'=>array('get')),
+            'type' => 'json'
           ), null, 
           function($response, $info){
             print_r(func_get_args());
