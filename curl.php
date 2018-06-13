@@ -29,8 +29,6 @@ class Curl {
       throw new Exception("Invalid URL provided");
     }
 
-    echo ((is_array($data['query']) ? count($data['query']) : 0));
-
     $curl = curl_init($data['url']);
     curl_setopt($curl, CURLOPT_POST, ((is_array($data['query']) ? count($data['query']) : 0)));
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
