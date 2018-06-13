@@ -16,7 +16,8 @@ $curl = Curl::post(
   
   // Setup additional curl options
   array (
-      CURLOPT_URL => 'https://example.com'
+      CURLOPT_TIMEOUT => 5000,
+      CURLOPT_MAXREDIRS => 5
   )
   
   /*
@@ -50,7 +51,8 @@ Curl::get(
   
   // Setup additional curl options
   array (
-      CURLOPT_URL => 'https://example.com'
+      CURLOPT_TIMEOUT => 5000,
+      CURLOPT_MAXREDIRS => 5
   ),
   
   // Callback function after executed, returns response and curl info
