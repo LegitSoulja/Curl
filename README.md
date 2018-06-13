@@ -62,3 +62,12 @@ Curl::get(
 
 );
 ```
+
+#### Curl::get (Download)
+```php
+Curl::get(array(
+  "url" => "https://raw.githubusercontent.com/LegitSoulja/Curl/master/README.md"
+), null, function($a){
+  print_r($a);
+});
+```
