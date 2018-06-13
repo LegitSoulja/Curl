@@ -17,18 +17,26 @@ $curl = Curl::post(
   // Setup additional curl options
   array (
       CURLOPT_URL => 'https://example.com'
-  ),
+  )
   
+  /*
+  ,
   // Callback function after executed, returns response and curl info
   function($response, $info) {
     print_r($response);
   }
-
+  */
 );
+
+// get response
+print_r($curl->response);
+
+// get info
+print_r($curl->info);
 
 ```
 #### Curl::get
-> *Note*: (Nothing changed except the static method)
+
 ```php
 Curl::get(
 
