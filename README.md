@@ -10,7 +10,7 @@ $curl = Curl::post(
   array(
     'url' => 'http://example.com',
     'query' => array(
-      'data' => 'password'
+      'data' => 'some type of data sent through post'
     ),
     'type' => 'application/json'
   ),
@@ -44,8 +44,8 @@ Curl::get(
   // Setup url and fields
   array(
     'url' => 'http://example.com',
-    'fields' => array(
-      'data' => 'password'
+    'query' => array(
+      'data' => 'some type of data sent through get'
     ),
     'type' => 'application/json'
   ),
