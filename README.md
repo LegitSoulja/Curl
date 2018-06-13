@@ -3,8 +3,8 @@ Advanced Curl Library
 
 #### Curl::post
 ```php
-
-Curl::post(
+// You can register a variable, or initiate a callback.
+$curl = Curl::post(
 
   // Setup url and fields
   array(
