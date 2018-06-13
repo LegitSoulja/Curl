@@ -9,9 +9,10 @@ $curl = Curl::post(
   // Setup url and fields
   array(
     'url' => 'http://example.com',
-    'fields' => array(
+    'query' => array(
       'data' => 'password'
-    )
+    ),
+    'type' => 'application/json'
   ),
   
   // Setup additional curl options
@@ -45,7 +46,8 @@ Curl::get(
     'url' => 'http://example.com',
     'fields' => array(
       'data' => 'password'
-    )
+    ),
+    'type' => 'application/json'
   ),
   
   // Setup additional curl options
