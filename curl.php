@@ -35,10 +35,6 @@ class Curl {
     curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
     curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query((array_key_exists('query', $data) && is_array($data['query'])) ? $data['query']: array()));
 
-    if(array_key_exists('type', $data)) {
-      curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: '.$data['type']));
-    }
-
     if(is_array($options)) {
       foreach($options as $opt => $v) {
         curl_setopt($curl, $opt, $v);
@@ -67,9 +63,6 @@ class Curl {
     curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
     curl_setopt($curl, CURLOPT_HTTPGET, 1);
 
-    if(array_key_exists('type', $data)) {
-      curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: '.$data['type']));
-    }
 
     if(is_array($options)) {
       foreach($options as $opt => $v) {
@@ -96,7 +89,6 @@ class Curl {
           array(
             'url'=>'http://httpbin.org/post', 
             'query'=>array('type'=>'post', 'data'=>array('post')),
-            'type'=>'application/json'
           ), null, 
           function($response, $info){
             print_r(func_get_args());
@@ -108,7 +100,6 @@ class Curl {
           array(
             'url'=>'http://httpbin.org/get', 
             'query'=>array('type'=>'get', 'data'=>array('get')),
-            'type' => 'application/json'
           ), null, 
           function($response, $info){
             print_r(func_get_args());
