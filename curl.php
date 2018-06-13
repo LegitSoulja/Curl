@@ -38,15 +38,14 @@ class Curl {
         }
       }
 
-      $res = curl_exec($curl);
-      $info = curl_getinfo($curl);
+      $obj = (object) array('response'=>curl_exec($curl), 'info' => curl_getinfo($curl));
       curl_close($curl);
 
       if(is_object($callback)) {
-        return $callback($res, $info);
+        return $callback($obj->response, $obj->info);
       }
 
-      return (object) array('response'=>$res, 'info'=>$info);
+      return $obj;
 
     }
   }
@@ -65,14 +64,15 @@ class Curl {
           curl_setopt($curl, $opt, $v);
         }
       }
-      $res = curl_exec($curl);
-      $info = curl_getinfo($curl);
+
+      $obj = (object) array('response'=>curl_exec($curl), 'info' => curl_getinfo($curl));
       curl_close($curl);
+
       if(is_object($callback)) {
-        return $callback($res, $info);
+        return $callback($obj->response, $obj->info);
       }
 
-      return (object) array('response'=>$res, 'info'=>$info);
+      return $obj;
 
     }
   }
@@ -91,3 +91,4 @@ class Curl {
   }
 
 };
+
