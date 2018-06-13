@@ -2,11 +2,14 @@
 
 class Curl {
 
+  public function __construct(){
+    throw new Exception("Curl is a static class, and cannot be initalized.");
+  }
   private static function parse($data, $type) {
     switch(strtolower($type)) {
       case 'json':
         try{
-          $parse = json_decode($data, true);
+          $parse = json_decode($data);
           if($parse === null) {
             throw new Exception("Failed to parse data as json");
           }
@@ -105,4 +108,6 @@ class Curl {
     }
   }
 
-};
+}
+
+
