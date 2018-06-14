@@ -27,7 +27,7 @@ final class Curl {
     }
   }
 
-  public static function post($data, $options, $callback){
+  public static function post($data, $options = array(), $callback = null){
 
     if(!filter_var($data['url'], FILTER_VALIDATE_URL)) {
       throw new Exception("Invalid URL provided");
@@ -60,7 +60,7 @@ final class Curl {
 
   }
 
-  public static function get($data, $options, $callback){
+  public static function get($data, $options = array(), $callback = null){
 
     if(!filter_var($data['url'], FILTER_VALIDATE_URL)) {
       throw new Exception("Invalid URL provided");
