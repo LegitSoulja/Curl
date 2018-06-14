@@ -5,6 +5,13 @@ class Curl {
   public function __construct(){
     throw new Exception("Curl is a static class, and cannot be initalized.");
   }
+
+  private static function getCurl($options) {
+    $curl = curl_init();
+    curl_setopt_array($curl, $options);
+    return $curl;
+  }
+
   private static function parse($data, $type) {
     switch(strtolower($type)) {
       case 'json':
@@ -27,17 +34,19 @@ class Curl {
       throw new Exception("Invalid URL provided");
     }
 
-    $curl = curl_init($data['url']);
-    curl_setopt($curl, CURLOPT_POST, ((is_array($data['query']) ? count($data['query']) : 0)));
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
-    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query((array_key_exists('query', $data) && is_array($data['query'])) ? $data['query']: array()));
+    $register = array(
+      CURLOPT_URL => $data['url'],
+      CURLOPT_POST => ((is_array($data['query']) ? count($data['query']) : 0)),
+      CURLOPT_RETURNTRANSFER => 1,
+      CURLOPT_FOLLOWLOCATION => 1,
+      CURLOPT_POSTFIELDS => http_build_query((array_key_exists('query', $data) && is_array($data['query'])) ? $data['query']: array())
+    );
 
     if(is_array($options)) {
-      foreach($options as $opt => $v) {
-        curl_setopt($curl, $opt, $v);
-      }
+      $register = array_merge($options, $register);
     }
+
+    $curl = self::getCurl($register);
 
     $obj = (object) array('response'=>self::parse(curl_exec($curl), ((array_key_exists('type', $data) ? $data['type'] : null)) ), 'info' => curl_getinfo($curl));
     curl_close($curl);
@@ -56,17 +65,18 @@ class Curl {
       throw new Exception("Invalid URL provided");
     }
 
-    $curl = curl_init($data['url']."?".http_build_query((array_key_exists('query', $data) && is_array($data['query'])) ? $data['query']: array()));
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
-    curl_setopt($curl, CURLOPT_HTTPGET, 1);
-
+    $register = array(
+      CURLOPT_URL => ($data['url']."?".http_build_query((array_key_exists('query', $data) && is_array($data['query'])) ? $data['query']: array())),
+      CURLOPT_RETURNTRANSFER => 1,
+      CURLOPT_FOLLOWLOCATION => 1,
+      CURLOPT_HTTPGET => 1
+    );
 
     if(is_array($options)) {
-      foreach($options as $opt => $v) {
-        curl_setopt($curl, $opt, $v);
-      }
+      $register = array_merge($options, $register);
     }
+
+    $curl = self::getCurl($register);
 
     $obj = (object) array('response'=>self::parse(curl_exec($curl), ((array_key_exists('type', $data) ? $data['type'] : null)) ), 'info' => curl_getinfo($curl));
     curl_close($curl);
@@ -104,10 +114,8 @@ class Curl {
             print_r(func_get_args());
           }
         );
+        break;
       default: return self::test('post');
     }
   }
-
 }
-
-
