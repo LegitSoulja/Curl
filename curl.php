@@ -91,34 +91,9 @@ class Curl {
     return $obj;
 
   }
-
-  public static function test($a = null){
-    switch(strtolower($a)) {
-      case 'post':
-        self::post(
-          array(
-            'url'=>'http://httpbin.org/post', 
-            'query'=>array('type'=>'post', 'data'=>array('post')),
-            'type' => 'json'
-          ), null, 
-          function($response, $info){
-            print_r(func_get_args());
-          }
-        );
-        break;
-      case 'get':
-        self::get(
-          array(
-            'url'=>'http://httpbin.org/get', 
-            'query'=>array('type'=>'get', 'data'=>array('get')),
-            'type' => 'json'
-          ), null, 
-          function($response, $info){
-            print_r(func_get_args());
-          }
-        );
-        break;
-      default: return self::test('post');
-    }
+  
+  public static function version() {
+    return (object) curl_version();
   }
+  
 }
