@@ -6,7 +6,7 @@ class Curl {
     throw new Exception("Curl is a static class, and cannot be initalized.");
   }
 
-  private static function getCurl($options) {
+  private static function registerCurl(&$curl, $options) {
     $curl = curl_init();
     curl_setopt_array($curl, $options);
     return $curl;
@@ -34,6 +34,8 @@ class Curl {
       throw new Exception("Invalid URL provided");
     }
 
+    $curl = null;
+
     $register = array(
       CURLOPT_URL => $data['url'],
       CURLOPT_POST => ((is_array($data['query']) ? count($data['query']) : 0)),
@@ -46,7 +48,7 @@ class Curl {
       $register = array_merge($options, $register);
     }
 
-    $curl = self::getCurl($register);
+    self::registerCurl($curl, $register);
 
     $obj = (object) array('response'=>self::parse(curl_exec($curl), ((array_key_exists('type', $data) ? $data['type'] : null)) ), 'info' => curl_getinfo($curl));
     curl_close($curl);
@@ -65,6 +67,8 @@ class Curl {
       throw new Exception("Invalid URL provided");
     }
 
+    $curl = null;
+
     $register = array(
       CURLOPT_URL => ($data['url']."?".http_build_query((array_key_exists('query', $data) && is_array($data['query'])) ? $data['query']: array())),
       CURLOPT_RETURNTRANSFER => 1,
@@ -76,7 +80,7 @@ class Curl {
       $register = array_merge($options, $register);
     }
 
-    $curl = self::getCurl($register);
+    self::registerCurl($curl, $options);
 
     $obj = (object) array('response'=>self::parse(curl_exec($curl), ((array_key_exists('type', $data) ? $data['type'] : null)) ), 'info' => curl_getinfo($curl));
     curl_close($curl);
