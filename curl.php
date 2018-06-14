@@ -9,7 +9,6 @@ class Curl {
   private static function registerCurl(&$curl, $options) {
     $curl = curl_init();
     curl_setopt_array($curl, $options);
-    return $curl;
   }
 
   private static function parse($data, $type) {
