@@ -1,6 +1,6 @@
 <?php
 
-class Curl {
+final class Curl {
 
   public function __construct(){
     throw new Exception("Curl is a static class, and cannot be initalized.");
