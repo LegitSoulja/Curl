@@ -37,14 +37,14 @@ final class Curl {
 
     $register = array(
       CURLOPT_URL => $data['url'],
-      CURLOPT_POST => ((is_array($data['query']) ? count($data['query']) : 0)),
+      CURLOPT_POST => ((array_key_exists('query', $data) && is_array($data['query']) ? count($data['query']) : 0)),
       CURLOPT_RETURNTRANSFER => 1,
       CURLOPT_FOLLOWLOCATION => 1,
       CURLOPT_POSTFIELDS => http_build_query((array_key_exists('query', $data) && is_array($data['query'])) ? $data['query']: array())
     );
 
     if(is_array($options)) {
-      $register = array_merge($options, $register);
+      $register = $register + $options;
     }
 
     self::registerCurl($curl, $register);
@@ -76,10 +76,10 @@ final class Curl {
     );
 
     if(is_array($options)) {
-      $register = array_merge($options, $register);
+      $register = $register + $options;
     }
 
-    self::registerCurl($curl, $options);
+    self::registerCurl($curl, $register);
 
     $obj = (object) array('response'=>self::parse(curl_exec($curl), ((array_key_exists('type', $data) ? $data['type'] : null)) ), 'info' => curl_getinfo($curl));
     curl_close($curl);
@@ -91,8 +91,8 @@ final class Curl {
     return $obj;
 
   }
-  
-  public static function version() {
+
+  public static function version(){
     return (object) curl_version();
   }
   
