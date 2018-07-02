@@ -1,5 +1,5 @@
 # Curl - PHP
-Advanced Curl Library
+Easy Curl Library
 
 #### Curl::post
 ```php
