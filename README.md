@@ -1,75 +1,51 @@
 # Curl - PHP
 Easy Curl Library
 
-#### Curl::post
-```php
-// You can register a variable, or initiate a callback.
-$curl = Curl::post(
+###Curl::POST
 
-  // Setup url and fields
-  array(
-    'url' => 'http://example.com',
-    'query' => array(
-      'data' => 'some type of data sent through post'
-    ),
-    'type' => 'json' // parse and return data as json
-  ),
-  
-  // Setup additional curl options
-  array (
-      CURLOPT_TIMEOUT => 5000,
-      CURLOPT_MAXREDIRS => 5
-  )
-  
-  /*
-  ,
-  // Callback function after executed, returns response and curl info
-  function($response, $info) {
-    print_r($response);
+```php
+Curl::POST(array(
+  'url' => 'http://example.com',
+  'type' => 'json',
+  'data' => array(),
+  'success' => function($r, $i){
+      print_r($r);
+  },
+  'error' => function($e){
   }
-  */
-);
-
-// get response
-print_r($curl->response);
-
-// get info
-print_r($curl->info);
-
-```
-#### Curl::get
-
-```php
-Curl::get(
-
-  // Setup url and fields
-  array(
-    'url' => 'http://example.com',
-    'query' => array(
-      'data' => 'some type of data sent through get'
-    ),
-    'type' => 'json'
-  ),
-  
-  // Setup additional curl options
-  array (
-      CURLOPT_TIMEOUT => 5000,
-      CURLOPT_MAXREDIRS => 5
-  ),
-  
-  // Callback function after executed, returns response and curl info
-  function($response, $info) {
-    print_r($response);
-  }
-
-);
-```
-
-#### Curl::get (Download)
-```php
-Curl::get(array(
-  "url" => "https://raw.githubusercontent.com/LegitSoulja/Curl/master/README.md"
-), null, function($a){
-  print_r($a);
+), array(
+  // extra curl options
+), function(){
+  // promise callback
 });
 ```
+
+####Curl::GET
+```php
+Curl::GET(array(
+  'url' => 'http://example.com',
+  'type' => 'json',
+  'data' => array(),
+  'success' => function($r, $i){
+      print_r($r);
+  },
+  'error' => function($e){
+  }
+), array(
+  // extra curl options
+), function(){
+  // promise callback
+});
+```
+
+####Curl::extend
+
+> At any time, you may need to parse data some way. Curl only has a json parser, but you can extend Curl to parse whatever type you throw at it.
+
+```php
+Curl::extend('json', function($data) {
+  return json_encode($data);
+})
+```
+
+> Note: Curl::extended parsers should throw errors when things happen. They're captured and sent to error, of your curl request and or the promise callback.
