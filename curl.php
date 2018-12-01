@@ -1,4 +1,5 @@
 <?php
+
 final class Parser {
     
     private $parsers = array();
@@ -68,22 +69,23 @@ final class Curl {
                  'info' => curl_getinfo($curl)
             );
         } catch (Exception $ex) {
-            if(array_key_exists('error', $req) && is_callable($req['error'])) {
-                $req['error']($ex);
-            }
             curl_close($curl);
+            if(array_key_exists('error', $req) && is_callable($req['error'])) {
+                call_user_func_array($req['success'], $obj);
+            }
             return;
         }
         
         curl_close($curl);
         
+        if(array_key_exists('success', $req) && is_callable($req['success'])) {
+            call_user_func_array($req['success'], $obj);
+        }
+        
         if(is_callable($cb)) {
             call_user_func_array($cb, $obj);
         }
         
-        if(array_key_exists('success', $req) && is_callable($req['success'])) {
-            call_user_func_array($req['success'], $obj);
-        }
         return $obj;
     }
     
@@ -115,10 +117,10 @@ final class Curl {
                 'info' => curl_getinfo($curl)
             );
         } catch (Exception $ex) {
-            if(array_key_exists('error', $req) && is_callable($req['error'])) {
-                $req['error']($ex);
-            }
             curl_close($curl);
+            if(array_key_exists('error', $req) && is_callable($req['error'])) {
+                call_user_func_array($req['success'], $obj);
+            }
             return;
         }
         
@@ -128,12 +130,12 @@ final class Curl {
         
         curl_close($curl);
         
-        if(is_callable($cb)) {
-            call_user_func_array($cb, $obj);
-        }
-        
         if(array_key_exists('success', $req) && is_callable($req['success'])) {
             call_user_func_array($req['success'], $obj);
+        }
+        
+        if(is_callable($cb)) {
+            call_user_func_array($cb, $obj);
         }
         
         return (object) $obj;
