@@ -1,7 +1,7 @@
 # Curl - PHP
 Easy Curl Library
 
-###Curl::POST
+#### Curl::POST
 
 ```php
 Curl::POST(array(
@@ -20,7 +20,7 @@ Curl::POST(array(
 });
 ```
 
-####Curl::GET
+#### Curl::GET
 ```php
 Curl::GET(array(
   'url' => 'http://example.com',
@@ -38,7 +38,7 @@ Curl::GET(array(
 });
 ```
 
-####Curl::extend
+#### Curl::extend
 
 > At any time, you may need to parse data some way. Curl only has a json parser, but you can extend Curl to parse whatever type you throw at it.
 
